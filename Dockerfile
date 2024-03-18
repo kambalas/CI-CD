@@ -4,14 +4,11 @@ FROM amazoncorretto:21
 WORKDIR /app
 
 # Copy the Gradle files
-COPY build.gradle settings.gradle gradlew /app/
-COPY gradle /app/gradle
+COPY build.gradle settings.gradle gradlew gradle /app/
 
-# Grant execution permissions to the Gradle wrapper
-RUN chmod +x ./gradlew
-
-# Download and install Gradle
-RUN ./gradlew --version
+# Use a shell script block to ensure commands are executed in sequence without intermediate layers
+RUN chmod +x ./gradlew && \
+    ./gradlew --version
 
 # Copy the project files
 COPY . /app
